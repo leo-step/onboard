@@ -67,12 +67,13 @@ def create_problem_context():
     But, you could have just if ((typeof (req.params.id) === 'undefined') || isNaN(req.params.id)) { as the line of code
     because this is only one line. 
     
-    Try avoiding doing trivial things like initializing libraries or exporting too much (focus on logic and operations).
+    Try avoiding doing trivial things like initializing libraries or exporting too much (focus on logic and operations). Do
+    this for at least 3 different lines of code across the file (preferably not subsequeny lines).
     Output the line of code and the problem description in the following format:
-
     {
-        description: "description of the task"
-        line: "the line of code"
+        title: title of the file
+        description[]: array of strings with a description of each task
+        line[]: an array of strings with the line of code of each task
     }
 
     '''
@@ -88,24 +89,27 @@ responseLLM = openai_json_response([
 ], model="gpt-4o")
 
 responseLLM["question"] = file_content
+filtered_data = list(filter(lambda x: x[1] in responseLLM["question"], zip(responseLLM["description"], responseLLM["line"])))
 
-if not responseLLM["line"] in responseLLM["question"]:
-    print("error")
-    print("Line:", responseLLM["line"])
-    print("Question:", responseLLM["question"]) 
-    exit(0)
+# Unzip the filtered result back into description and lines
+filtered_description, filtered_lines = zip(*filtered_data) if filtered_data else ([], [])
 
-questionSplit = responseLLM["question"].split(responseLLM["line"])
-lineLength = len(responseLLM["line"])
+# Convert back to lists (since zip returns tuples)
+responseLLM["description"] = list(filtered_description)
+responseLLM["line"] = list(filtered_lines)
 
-questionFITB = [
-    questionSplit[0],
-    "Input(" + str(lineLength) + ")",
-    questionSplit[1]
-]
+print(responseLLM)
+# questionSplit = responseLLM["question"].split(responseLLM["line"])
+# lineLength = len(responseLLM["line"])
 
-print(questionFITB)
-print(responseLLM['description'])
+# questionFITB = [
+#     questionSplit[0],
+#     "Input(" + str(lineLength) + ")",
+#     questionSplit[1]
+# ]
+
+# print(questionFITB)
+# print(responseLLM['description'])
 
 
 '''
