@@ -78,7 +78,7 @@ def initialize():
                 counter["value"] += 1
             db_client["questions"].insert_one(responseLLM)
 
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor(max_workers=6) as executor:
         futures = {
             executor.submit(process_file, file_names[i], parsed_data, url, db_client, question_counter, lock): i
             for i in range(len(file_names))
