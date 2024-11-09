@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Prism from "prismjs";
 import "prismjs/components/prism-python";
 import "prismjs/themes/prism-tomorrow.css";
+import axios from "axios";
 
 interface EnvironmentProps {
   question: string[];
@@ -36,10 +37,28 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId }) => {
   };
 
   // Handle form submission
-  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+  
+    // Save the current inputs
     setInputs({ ...tempInputs });
     console.log("Submitted answers:", tempInputs);
+  
+    try {
+      // Prepare the data to send
+      const user_response = {
+        question_number: questionId,
+        submission: tempInputs
+      };
+  
+      // Send the data via a POST request
+      axios.post("http://localhost:6001/api/solution", user_response).then((res) => {
+        console.log("Server response:", res.data);
+      });
+
+    } catch (error) {
+      console.error("Error submitting answers:", error);
+    }
   };
 
   // Function to render the question with inputs and highlighted code
@@ -108,7 +127,8 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId }) => {
           lineHeight: "1.5",
           wordBreak: "break-word",
           marginBottom: "20px",
-          height: "400px",
+          height: "600px",
+          width: "900px",
           overflowY: "auto"
         }}
       >
@@ -120,12 +140,6 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId }) => {
         <button onClick={handleSubmit} className="button-right-arrow">
           Submit
         </button>
-      </div>
-
-      {/* Display submitted inputs */}
-      <div style={{ marginTop: "20px", color: "#f8f8f2" }}>
-        <h4>Submitted Answers:</h4>
-        <pre>{JSON.stringify(inputs, null, 2)}</pre>
       </div>
     </div>
   );
