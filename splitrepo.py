@@ -18,4 +18,19 @@ def parse_files(file_data):
 
 parsed_data = parse_files(response.text)
 
-print(len(parsed_data.keys()))
+# print(parsed_data.keys())
+
+file_name = "/controllers/endpoints/instructor.js"
+file_content = parsed_data[file_name]
+
+# {
+#     "context": "asfsaffsad",
+#     "question": [
+#         "def get_db_stuff(): \n",
+#         "Input(20)",
+#         "more code",
+#         "Input(10)"
+#     ],
+# }
+
+
