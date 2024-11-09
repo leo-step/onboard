@@ -18,8 +18,21 @@ def parse_files(file_data):
     return files_dict
 
 parsed_data = parse_files(response.text)
+files = list(parse_files.keys())
 
-# print(parsed_data.keys())
+@system_prompt
+def select_candidate_files():
+    return '''You will be given a list of file names from a repository. Your overall goal
+    is to create coding questions that cover core concepts from the repository. You need to
+    choose the best files to base your questions on. Return a JSON '''
+
+@user_prompt
+def give_files_list():
+    pass
+
+
+
+exit()
 
 file_name = "/controllers/endpoints/instructor.js"
 file_content = parsed_data[file_name]
