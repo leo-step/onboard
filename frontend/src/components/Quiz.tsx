@@ -56,7 +56,7 @@ function Quiz() {
 
       {/* Problem Statement Section */}
       <div id="left">
-        <ProblemStatement key={currentQuestionIndex} title={currentQuestion.title} description={currentQuestion.description} questionId={currentQuestionIndex} submission={submission} />
+        <ProblemStatement key={currentQuestionIndex} title={currentQuestion.title} descriptions={currentQuestion.descriptions} questionId={currentQuestionIndex} submission={submission} />
       </div>
 
       {/* Environment Section */}

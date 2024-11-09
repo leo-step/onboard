@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 interface ProblemStatementProps {
   title: string;
-  description: string;
+  descriptions: string[]; // Array of descriptions passed as a prop
   submission: { [key: number]: string };
   questionId: number;
 
@@ -17,7 +17,7 @@ interface Hint {
 // PASS IN PREVIOUS HINTS
 
 // function ProblemStatement(props: ProblemStatementProps) {
-const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , description , questionId , submission }) => {
+const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , descriptions , questionId , submission }) => {
     const [loading, setLoading] = useState<boolean>(false); // New loading state
 
     const [hints, setHints] = useState<Hint[]>([]);
@@ -25,7 +25,7 @@ const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , description
     const [hintText, setHintText] = useState<string>("Show Hint")
     const handleHint = async () => {
         setHintText("Show Another Hint");
-      
+
         if (hints.length < 5) {
           try {
             // Prepare the data to send
@@ -48,7 +48,7 @@ const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , description
               // Extract the hints from the response object
               const hintsArray = Object.values(response.data);
               console.log("Received hints:", hintsArray);
-      
+            
               // Add each new hint to the hints state
               hintsArray.forEach((hintText, index) => {
                 const newHint = { data: `Hint ${hints.length + 1 + index}: ${hintText}` };
@@ -81,8 +81,17 @@ const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , description
         <div className="code-container">
           <div className="ps-environment">
             <h2 className="ps-header">{title}</h2>
-            <div className="ps-context">{description}</div>
-      
+            <div className="ps-context">{descriptions}</div>
+            {/* Render the existing descriptions */}
+            {descriptions && descriptions.length > 0 && (
+              <ol className="descriptions">
+                {descriptions.map((desc, index) => (
+                  <li key={index} className="description-item">
+                    {desc}
+                  </li>
+                ))}
+              </ol>
+            )}
             <button
               className="button-right-arrow"
               onClick={handleHint}

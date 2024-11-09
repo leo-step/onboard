@@ -10,7 +10,7 @@ const GitHubUrlForm: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [buttonText, setButtonText] = useState<string>("Submit");
     const navigate = useNavigate();
-    const [uitURL, setUIT] = useAtom();
+    const [uitURL, setUIT] = useAtom(uit);
     const githubApiRegex = /^https:\/\/(www\.)?github\.com\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+)$/;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

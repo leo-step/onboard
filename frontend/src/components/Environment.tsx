@@ -102,6 +102,7 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
       axios.post("http://localhost:6001/api/solution", user_response).then((res) => {
         console.log("Server response:", res.data);
         handleResults(res.data);
+        console.log(res.data)
       });
     } catch (error) {
       console.error("Error submitting answers:", error);
