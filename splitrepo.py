@@ -1,7 +1,7 @@
 import requests 
 import re
 import json
-url = "https://uithub.com/TigerAppsOrg/TigerPath?accept=text%2Fplain&maxTokens=10000000"
+url = "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000"
 
 response = requests.get(url)
 # print(response.text)
