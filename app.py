@@ -36,10 +36,13 @@ def parse_files(file_data):
     
     return files_dict
 
+def get_url(data):
+    return data["url"] + "?accept=text%2Fplain&maxTokens=10000000"
+
 @app.route('/api/initialize', methods=['POST'])
 def initialize():
     data = request.get_json()
-    url = data["url"] + "?accept=text%2Fplain&maxTokens=10000000"
+    url = get_url(data)
     response = requests.get(url)
 
     parsed_data = parse_files(response.text)
@@ -95,8 +98,10 @@ def initialize():
 
 @app.route('/api/question', methods=['POST'])
 def get_question():
+    data = request.get_json()
+    url = get_url(data)
     docs = list(db_client["questions"].find(
-        {"url" : "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000"},
+        {"url" : url},
     {"_id": 0}))
 
     for i in range(len(docs)):
@@ -117,12 +122,12 @@ def get_question():
 @app.route('/api/solution', methods=['POST'])
 def check_solution():
     data = request.get_json()
+    url = get_url(data)
     question_number = data["question_number"]
     submission = data["submission"]
 
     question = db_client["questions"].find_one(
-        {"url" : "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000", 
-         "question_number" : question_number},
+        {"url" : url, "question_number" : question_number},
     {"_id": 0})
 
     response = []
@@ -134,12 +139,13 @@ def check_solution():
 @app.route('/api/hint', methods=['POST'])
 def get_hint():
     data = request.get_json()
+    url = get_url(data)
     question_number = data["question_number"]
     submission = data["submission"]
     previous_hints = data["previous_hints"]
     
     question = db_client["questions"].find_one(
-        {"url" : "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000", "question_number" : question_number},
+        {"url" : url, "question_number" : question_number},
     {"_id": 0})
 
     indices = list(submission.keys())
