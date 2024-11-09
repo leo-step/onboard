@@ -47,6 +47,8 @@ def initialize():
     url = get_url(data)
     response = requests.get(url)
 
+    db_client["questions"].delete_many({"url": url})
+
     parsed_data = parse_files(response.text)
     files = list(parsed_data.keys())
     
