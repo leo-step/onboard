@@ -60,4 +60,63 @@ def select_candidate_files():
 def give_files_list(files):
     return str(files)
 
+@system_prompt
+def select_hints():
+    return ''' We are creating an app to teach employees our codebase. 
+    We picked an easy line from a given file and produced a problem description for it that 
+    contains enough context (variable names, method calls from the line) and ask the user to only 
+    rewrite a small part of the line of code. We want employees to code this line of code exactly as it is as 
+    an answer to our question.
+
+    The employee is currently stuck on 1 or more lines of code and needs a hint. 
+    For a set of lines of code the user has to implement, we want you to provide a hint to the employee
+    that will help them rewrite the line of code. We will provide you with the employee's attempt, as well as the 
+    correct solution. 
+    The hint you provide should be a string that states where the employee is going wrong in their code 
+    (and you should read the correct solution but not reveal it). You will also be given the entire code for the file. 
+
+    Here is the format of inputs for you (you'll be given a list of n description, submission, and correct solutions): 
+
+    "Code for the file
+     
+     0
+     Description: (problem description for the user)
+     Submission: (user's attempt at the fill-in-the-blank)
+     Correct Solution: (the correct solution to the fill-in-the-blank)
+     
+     1
+     Description: (problem description for the user)
+     Submission: (user's attempt at the fill-in-the-blank)
+     Correct Solution: (the correct solution to the fill-in-the-blank)
+
+     ...
+
+     n
+     Description: (problem description for the user)
+     Submission: (user's attempt at the fill-in-the-blank)
+     Correct Solution: (the correct solution to the fill-in-the-blank)
+
+     Previous Hints
+     (previous hints given to the user)
+     "
+    
+    Return an array of n hints as an array of strings, where there is a hint for each description. *** AVOID 
+    USING ANY OF THE PREVIOUS HINTS AND THE CORRECT SOLUTION IN YOUR HINTS ***. The array of n hints
+    should be in the following format:
+    "
+    {
+        "0": "Hint 1", 
+        "1": "Hint 2",
+        ...
+        "n": "Hint n"
+    }
+    "
+    
+    '''
+
+@user_prompt
+def give_hint_solution(query: str):
+    return str(query)
+    
+
 
