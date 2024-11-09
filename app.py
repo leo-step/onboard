@@ -20,5 +20,33 @@ def serve_static(filename):
 def index():
     return send_from_directory('dist', 'index.html')
 
+@app.route('/api/question', methods=['POST'])
+def get_question():
+    data = request.get_json()
+    question_number = data["question_number"]
+    return jsonify({
+        "title": "",
+        "description": "",
+        "question": ""
+    })
+
+@app.route('/api/solution', methods=['POST'])
+def check_solution():
+    data = request.get_json()
+    question_number = data["question_number"]
+    submission = data["submission"]
+    return jsonify({
+        "correct": False
+    })
+
+@app.route('/api/hint', methods=['POST'])
+def get_hint():
+    data = request.get_json()
+    question_number = data["question_number"]
+    previous_hints = data["previous_hints"]
+    return jsonify({
+        "hint": ""
+    })
+
 if __name__ == '__main__':
     app.run(host="localhost", port=6001, debug=True)
