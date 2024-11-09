@@ -18,21 +18,21 @@ def parse_files(file_data):
     return files_dict
 
 parsed_data = parse_files(response.text)
-files = list(parse_files.keys())
+# files = list(parse_files.keys())
 
-@system_prompt
-def select_candidate_files():
-    return '''You will be given a list of file names from a repository. Your overall goal
-    is to create coding questions that cover core concepts from the repository. You need to
-    choose the best files to base your questions on. Return a JSON '''
+# @system_prompt
+# def select_candidate_files():
+#     return '''You will be given a list of file names from a repository. Your overall goal
+#     is to create coding questions that cover core concepts from the repository. You need to
+#     choose the best files to base your questions on. Return a JSON '''
 
-@user_prompt
-def give_files_list():
-    pass
+# @user_prompt
+# def give_files_list():
+#     pass
 
 
 
-exit()
+# exit()
 
 file_name = "/controllers/endpoints/instructor.js"
 file_content = parsed_data[file_name]
@@ -108,7 +108,19 @@ print(questionFITB)
 print(responseLLM['description'])
 
 
+'''
+{
+    "_id": 123,
+    "url": "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000",
+    "question_number": 0,
+    "title": "asdf",
+    "description: "asdf",
+    "question": [...],
 
+}
+
+
+'''
 
 
 
