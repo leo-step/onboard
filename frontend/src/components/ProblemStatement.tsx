@@ -81,7 +81,6 @@ const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , description
         <div className="code-container">
           <div className="ps-environment">
             <h2 className="ps-header">{title}</h2>
-            <div className="ps-context">{descriptions}</div>
             {/* Render the existing descriptions */}
             {descriptions && descriptions.length > 0 && (
               <ol className="descriptions">
