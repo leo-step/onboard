@@ -97,7 +97,7 @@ function Quiz() {
         src={logo} 
         alt="Onboard Logo" 
         style={{
-          marginTop: '40px',
+          marginTop: '50px',
           width: "220px",              // Adjusted width to be slightly larger
           height: "70px",              // Adjusted height
           objectFit: "cover",          // Ensures the image fills the container while cropping
@@ -108,11 +108,8 @@ function Quiz() {
           borderRadius: '8px'          // Optional: Rounds the corners slightly
         }}
       />
-        <div className="pagination-container" style={{ textAlign: 'center', marginTop: '10px' }}>
-          <button className="button-left-arrow" onClick={goPrev}  style={{
-      padding: '5px 15px',
-      fontSize: '1em'
-    }}> prev </button>
+        <div className="pagination-container" style={{ textAlign: 'center', marginTop: '20px' }}>
+          <button className="button-left-arrow" onClick={goPrev}  style={{padding: '5px 15px',fontSize: '1em'}}> prev </button>
           <button className="button-right-arrow" onClick={goNext}  style={{
       padding: '5px 15px',
       fontSize: '1em'

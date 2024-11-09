@@ -117,7 +117,7 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId }) => {
 
       {/* Submit button */}
       <div className="submit-container">
-        <button onClick={handleSubmit} className="button-right-arrow">
+        <button onClick={handleSubmit} className="button">
           Submit
         </button>
       </div>
