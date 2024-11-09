@@ -37,6 +37,8 @@ def parse_files(file_data):
     return files_dict
 
 def get_url(data):
+    # return "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000"
+    print(data["url"])
     return data["url"] + "?accept=text%2Fplain&maxTokens=10000000"
 
 @app.route('/api/initialize', methods=['POST'])

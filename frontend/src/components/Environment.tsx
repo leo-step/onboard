@@ -3,19 +3,29 @@ import Prism from "prismjs";
 import "prismjs/components/prism-python";
 import "prismjs/themes/prism-tomorrow.css";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 interface EnvironmentProps {
   question: string[];
   questionId: number;
+  setAllCorrect: (value: boolean) => void; // New prop for setting correctness
+  setSubmission: (value: InputsState) => void;
 }
 
 type InputsState = {
   [key: number]: string;
 };
 
-const Environment: React.FC<EnvironmentProps> = ({ question, questionId }) => {
+type ResultsMap = {
+  [key: number]: boolean;
+};
+
+const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllCorrect, setSubmission}) => {
   const [inputs, setInputs] = useState<InputsState>({});
   const [tempInputs, setTempInputs] = useState<InputsState>({});
+  const [inputStyles, setInputStyles] = useState<{ [key: number]: string }>({});
+  const [disabledInputs, setDisabledInputs] = useState<{ [key: number]: boolean }>({});
+
 
   // Load inputs from localStorage when component mounts
   useEffect(() => {
@@ -36,26 +46,63 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId }) => {
     setTempInputs((prev) => ({ ...prev, [index]: value }));
   };
 
+  // Handle results to update input styles
+  const handleResults = (data: ResultsMap) => {
+    const updatedStyles: { [key: number]: string } = {};
+    const updatedDisabled: { [key: number]: boolean } = {};
+    var numTrue = 0;
+
+    Object.keys(data).forEach((index) => {
+      const idx = parseInt(index);
+      if (data[idx]) {
+        // Correct input: make it blue and disable further editing
+        updatedStyles[idx] = "blue";
+        updatedDisabled[idx] = true;
+        numTrue += 1;
+      } else {
+        // Incorrect input: highlight it red
+        updatedStyles[idx] = "red";
+        updatedDisabled[idx] = false;
+      }
+    });
+
+    setInputStyles(updatedStyles);
+    setDisabledInputs(updatedDisabled);
+
+    // IF ALL ARE CORRECT
+    if (numTrue === Object.keys(data).length) {
+        Swal.fire({
+            title: "Good job!",
+            text: "All tests passed.",
+            icon: "success"
+         });
+         setAllCorrect(true); // Use setAllCorrect correctly
+    }
+
+  };
+
   // Handle form submission
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-  
+
     // Save the current inputs
     setInputs({ ...tempInputs });
+    setSubmission(tempInputs); // Update submission in Quiz
     console.log("Submitted answers:", tempInputs);
-  
+
     try {
       // Prepare the data to send
       const user_response = {
         question_number: questionId,
-        submission: tempInputs
+        submission: tempInputs,
+        url: "https://uithub.com/TigerAppsOrg/PrincetonCourses",
       };
-  
+
       // Send the data via a POST request
       axios.post("http://localhost:6001/api/solution", user_response).then((res) => {
         console.log("Server response:", res.data);
+        handleResults(res.data);
       });
-
     } catch (error) {
       console.error("Error submitting answers:", error);
     }
@@ -70,7 +117,7 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId }) => {
 
       if (inputMatch) {
         const inputLength = parseInt(inputMatch[1], 10);
-        const currentIndex = inputIndex; // Capture the current index
+        const currentIndex = inputIndex;
         inputIndex++;
 
         return (
@@ -86,24 +133,18 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId }) => {
               fontSize: "16px",
               margin: "0 5px",
               padding: "2px",
-              backgroundColor: "#1e1e1e",
+              backgroundColor: inputStyles[currentIndex] || "#1e1e1e",
               color: "#f8f8f2",
-              border: "1px solid #ccc"
+              border: "1px solid #ccc",
             }}
+            disabled={disabledInputs[currentIndex] || false}
           />
         );
       } else {
         // Highlight non-input parts using Prism
-        const highlightedPart = Prism.highlight(
-          part,
-          Prism.languages.python,
-          "python"
-        );
+        const highlightedPart = Prism.highlight(part, Prism.languages.python, "python");
         return (
-          <span
-            key={index}
-            dangerouslySetInnerHTML={{ __html: highlightedPart }}
-          />
+          <span key={index} dangerouslySetInnerHTML={{ __html: highlightedPart }} />
         );
       }
     });
@@ -129,7 +170,7 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId }) => {
           marginBottom: "20px",
           height: "600px",
           width: "900px",
-          overflowY: "auto"
+          overflowY: "auto",
         }}
       >
         {renderHighlightedCode()}

@@ -11,16 +11,18 @@ import axios from 'axios';
 function Quiz() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [data, setData] = useState([]);
+  const [allCorrect, setAllCorrect] = useState(false); // New state to track correctness
+  const [submission, setSubmission] = useState<{ [key: number]: string }>({});
+
 
   useEffect(() => {
-    axios.post("http://localhost:6001/api/question").then((res) => {
+    var data = {
+      url: "https://uithub.com/TigerAppsOrg/PrincetonCourses"
+    }
+    axios.post("http://localhost:6001/api/question", data).then((res) => {
       setData(res.data);
     });
   }, [])
-
-  const goToQuestion = (index: number) => {
-    setCurrentQuestionIndex(index);
-  };
 
   const goPrev = () => {
     if(currentQuestionIndex > 0){
@@ -30,6 +32,7 @@ function Quiz() {
   const goNext = () => {
     if(currentQuestionIndex < data.length - 1){
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setAllCorrect(false); 
     }
   };
   const currentQuestion = data[currentQuestionIndex] as any;
@@ -46,19 +49,19 @@ function Quiz() {
       <div id = "top">
       <img src={logo} alt="Onboard Logo" className="logo-image"/>
         <div className="pagination-container" style={{ textAlign: 'center', marginTop: '10px' }}>
-          <button className="button-left-arrow" onClick={goPrev}  style={{padding: '5px 15px', fontSize: '1em' }}> prev </button>
-          <button className="button-right-arrow" onClick={goNext}  style={{ padding: '5px 15px', fontSize: '1em'}}> next </button>
+          <button className="button-left-arrow" onClick={goPrev}  style={{padding: '5px 15px', fontSize: '1em' }} disabled> prev </button>
+          <button className="button-right-arrow" onClick={goNext}  style={{ padding: '5px 15px', fontSize: '1em'}} disabled={!allCorrect} > next </button>
         </div>
       </div>
 
       {/* Problem Statement Section */}
       <div id="left">
-        <ProblemStatement key={currentQuestionIndex} title={currentQuestion.title} description={currentQuestion.description} />
+        <ProblemStatement key={currentQuestionIndex} title={currentQuestion.title} description={currentQuestion.description} questionId={currentQuestionIndex} submission={submission} />
       </div>
 
       {/* Environment Section */}
       <div id="right">
-        <Environment  key={currentQuestionIndex} question={currentQuestion.question} questionId={currentQuestionIndex}  />
+        <Environment  key={currentQuestionIndex} question={currentQuestion.question} questionId={currentQuestionIndex} setAllCorrect={setAllCorrect} setSubmission={setSubmission}/>
       </div>
 
       {/* Progress Bar at the Bottom */}
