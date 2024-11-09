@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-
+import { uit } from "./Global_States";
+import {useAtom} from "jotai";
 
 const GitHubUrlForm: React.FC = () => {
     const [url, setUrl] = useState<string>("");
@@ -9,7 +10,7 @@ const GitHubUrlForm: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [buttonText, setButtonText] = useState<string>("Submit");
     const navigate = useNavigate();
-
+    const [uitURL, setUIT] = useAtom();
     const githubApiRegex = /^https:\/\/(www\.)?github\.com\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+)$/;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +41,7 @@ const GitHubUrlForm: React.FC = () => {
                     console.log(uitHubURL);
                     const backend_response = await axios.post('http://localhost:6001/api/initialize', {"url": uitHubURL});
                     if(backend_response.status == 200){
+                        setUIT(uitHubURL);
                         navigate("/quiz");
                         setButtonText("Submit");
                     }
