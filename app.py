@@ -46,9 +46,17 @@ def check_solution():
     data = request.get_json()
     question_number = data["question_number"]
     submission = data["submission"]
-    return jsonify({
-        "correct": False
-    })
+
+    question = db_client["questions"].find_one(
+        {"url" : "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000", 
+         "question_number" : question_number},
+    {"_id": 0})
+
+    response = []
+    for i in range(len(question["lines"])):
+        response.append(question["lines"][i] == submission.get(str(i)))
+
+    return jsonify(response)
 
 @app.route('/api/hint', methods=['POST'])
 def get_hint():
