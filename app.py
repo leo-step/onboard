@@ -71,12 +71,11 @@ def get_hint():
         {"url" : "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000", "question_number" : question_number},
     {"_id": 0})
 
-    indices = submission.keys()
+    indices = list(submission.keys())
     hintQuery = question["question"]
     for i in range(len(indices)):
         index = int(indices[i])
-        hintQuery += str(i) + "\nDescription: " + str(question["descriptions"][index]) + "\n" + "Submission: " + str(submission[index]) + "\n" 
-        + "Correct Solution: " + str(question["lines"][index]) + "\n"
+        hintQuery += str(i) + "\nDescription: " + str(question["descriptions"][index]) + "\n" + "Submission: " + str(submission[str(index)]) + "\n" + "Correct Solution: " + str(question["lines"][index]) + "\n"
     hintQuery += "Previous Hints"
     for i in range(len(previous_hints)):
         hintQuery += "\n" + str(previous_hints[i])
@@ -86,9 +85,7 @@ def get_hint():
         give_hint_solution(hintQuery)
     ])
 
-    return jsonify({
-        "hint": ""
-    })
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(host="localhost", port=6001, debug=True)
