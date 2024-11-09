@@ -27,7 +27,7 @@ def get_question():
     return jsonify({
         "title": "",
         "description": "",
-        "question": ""
+        "question": []
     })
 
 @app.route('/api/solution', methods=['POST'])
