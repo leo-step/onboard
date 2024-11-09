@@ -48,7 +48,8 @@ for i in tqdm(range(len(response["files"]))):
     responseLLM["lines"] = list(filtered_lines)
     responseLLM["question_number"] = i
     responseLLM["url"] = url
-    db_client["questions"].insert_one(responseLLM)
+    if len(responseLLM["lines"]) > 0:
+        db_client["questions"].insert_one(responseLLM)
 '''
 {
     "_id": 123,
