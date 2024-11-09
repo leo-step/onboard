@@ -3,6 +3,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from clients import db_client
 from urllib.parse import urlparse, parse_qs
+from prompts import select_hints, give_hint_solution
+from utils import openai_json_response
 
 load_dotenv()
 
@@ -64,6 +66,26 @@ def get_hint():
     question_number = data["question_number"]
     submission = data["submission"]
     previous_hints = data["previous_hints"]
+    
+    question = db_client["questions"].find_one(
+        {"url" : "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000", "question_number" : question_number},
+    {"_id": 0})
+
+    indices = submission.keys()
+    hintQuery = question["question"]
+    for i in range(len(indices)):
+        index = int(indices[i])
+        hintQuery += str(i) + "\nDescription: " + str(question["descriptions"][index]) + "\n" + "Submission: " + str(submission[index]) + "\n" 
+        + "Correct Solution: " + str(question["lines"][index]) + "\n"
+    hintQuery += "Previous Hints"
+    for i in range(len(previous_hints)):
+        hintQuery += "\n" + str(previous_hints[i])
+
+    response = openai_json_response([
+        select_hints(),
+        give_hint_solution(hintQuery)
+    ])
+
     return jsonify({
         "hint": ""
     })
