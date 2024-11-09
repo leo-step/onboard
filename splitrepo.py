@@ -26,11 +26,4 @@ def parse_files(file_data):
 # Parse the file content
 parsed_data = parse_files(response.text)
 
-# Convert the parsed data into a JSON-like format for better visualization
-json_output = json.dumps(parsed_data, indent=4)
-
-# Print the resulting dictionary or save it to a file
-print(json_output)
-
-
-
+print(len(parsed_data.keys()))
