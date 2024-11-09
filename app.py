@@ -43,6 +43,7 @@ def check_solution():
 def get_hint():
     data = request.get_json()
     question_number = data["question_number"]
+    submission = data["submission"]
     previous_hints = data["previous_hints"]
     return jsonify({
         "hint": ""
