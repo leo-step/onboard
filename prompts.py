@@ -31,7 +31,7 @@ def create_problem_context():
     because this is only one line. 
     
     Try avoiding doing trivial things like initializing libraries or exporting too much (focus on logic and operations). Do
-    this for at least 3 different lines of code across the file (preferably not subsequeny lines).
+    this for at least 6 different lines of code across the file (preferably not subsequeny lines).
     Output the line of code and the problem description in the following format:
     {
         title: title of the file
