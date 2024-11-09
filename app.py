@@ -22,14 +22,10 @@ def index():
 
 @app.route('/api/question', methods=['POST'])
 def get_question():
-    data = request.get_json()
-    question_number = data["question_number"]
-    return jsonify({
-        "title": "",
-        "description": "",
-        "question": []
-    })
-
+    docs = db_client["questions"].find(
+        {"url" : "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000"},
+    {"_id": 0})
+    return jsonify(list(docs))
 @app.route('/api/solution', methods=['POST'])
 def check_solution():
     data = request.get_json()
