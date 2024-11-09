@@ -22,10 +22,25 @@ def index():
 
 @app.route('/api/question', methods=['POST'])
 def get_question():
-    docs = db_client["questions"].find(
+
+    docs = list(db_client["questions"].find(
         {"url" : "https://uithub.com/TigerAppsOrg/PrincetonCourses?accept=text%2Fplain&maxTokens=10000000"},
-    {"_id": 0})
-    return jsonify(list(docs))
+    {"_id": 0}))
+
+    for i in range(len(docs)):
+        remainderDoc = docs[i]["question"]
+        processedDoc = []
+        for j in range(len(docs[i]["descriptions"])):
+            line = docs[i]["lines"][j]
+            questionSplit = remainderDoc.split(line)
+            lineLength = len(line)
+            processedDoc.append(questionSplit[0])
+            processedDoc.append("Input(" + str(lineLength) + ")")
+            remainderDoc = line.join(questionSplit[1:])
+        processedDoc.append(remainderDoc)
+        docs[i]["question"] = processedDoc
+
+    return jsonify(docs)
 @app.route('/api/solution', methods=['POST'])
 def check_solution():
     data = request.get_json()
