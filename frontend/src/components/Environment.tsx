@@ -68,13 +68,13 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, solutio
     Object.keys(data).forEach((index) => {
       const idx = parseInt(index);
       if (data[idx]) {
-        // Correct input: green halo
-        updatedStyles[idx] = "0 0 10px 3px rgba(0, 255, 0, 0.7)"; // Green glow
+        // Correct input: make it blue and disable further editing
+        updatedStyles[idx] = "blue";
         updatedDisabled[idx] = true;
         numTrue += 1;
       } else {
-        // Incorrect input: red halo
-        updatedStyles[idx] = "0 0 10px 3px rgba(255, 0, 0, 0.7)"; // Red glow
+        // Incorrect input: highlight it red
+        updatedStyles[idx] = "red";
         updatedDisabled[idx] = false;
       }
     });
@@ -166,11 +166,12 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, solutio
 
     return question.map((part, index) => {
       const inputMatch = part.match(/Input\((\d+)\)/);
-      
+
       if (inputMatch) {
         const inputLength = parseInt(inputMatch[1], 10);
-        const currentIndex = index;
-        const boxShadowStyle = inputStyles[currentIndex] || "none";
+        const currentIndex = inputIndex;
+        inputIndex++;
+
         return (
           <input
             key={currentIndex}
@@ -183,23 +184,22 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, solutio
               fontFamily: "monospace",
               fontSize: "16px",
               margin: "0 5px",
-              padding: "5px",
-              borderRadius: "5px",
-              outline: "none",
-              backgroundColor: "#1e1e1e",
+              padding: "2px",
+              backgroundColor: inputStyles[currentIndex] || "#1e1e1e",
               color: "#f8f8f2",
-              border: "1px solid #3a3a3a",
-              boxShadow: boxShadowStyle, // Apply the box shadow here
+              border: "1px solid #ccc",
             }}
             disabled={disabledInputs[currentIndex] || false}
           />
         );
       } else {
+        // Highlight non-input parts using Prism
         const highlightedPart = Prism.highlight(part, Prism.languages.python, "python");
-        return <span key={index} dangerouslySetInnerHTML={{ __html: highlightedPart }} />;
+        return (
+          <span key={index} dangerouslySetInnerHTML={{ __html: highlightedPart }} />
+        );
       }
     });
-    
   };
 
   return (
