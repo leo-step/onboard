@@ -35,9 +35,13 @@ def create_problem_context():
     Output the line of code and the problem description in the following format:
     {
         title: title of the file
-        descriptions[]: array of strings with a description of each task
+        descriptions[]: array of strings with a description of each task.
         lines[]: an array of strings with the line of code of each task
     }
+
+    Make sure the problem descriptions are actually good enough to solve the problem. For example, if you select
+    a line with a print statement, tell the user the exact string to print otherwise its not possible to reasonably
+    fill in the blank.
 
     '''
 
