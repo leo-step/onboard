@@ -7,8 +7,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from "./onboard.jpg";
 import axios from 'axios';
 import { uit } from "./Global_States";
+import { useAtomValue } from 'jotai';
 
 function Quiz() {
+  const uitURL = useAtomValue(uit);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [data, setData] = useState([]);
   const [allCorrect, setAllCorrect] = useState(false); // New state to track correctness
@@ -17,7 +19,7 @@ function Quiz() {
 
   useEffect(() => {
     var data = {
-      url: uit
+      url: uitURL
     }
     axios.post("http://localhost:6001/api/question", data).then((res) => {
       setData(res.data);
