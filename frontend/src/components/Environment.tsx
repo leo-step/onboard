@@ -203,15 +203,18 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, solutio
       </div>
 
       {/* Submit button */}
-      <div className="submit-container">
-        <button onClick={handleSubmit} className="button">
-          Submit
-        </button>
-      </div>
-      <div className="submit-container">
-        <button onClick={handleGiveUp} className="button">
-          Give Up
-        </button>
+      <div style={{display: "flex",
+          gap: "10px"}}>
+        <div className="submit-container">
+          <button onClick={handleSubmit} className="button">
+            Submit
+          </button>
+        </div>
+        <div className="submit-container">
+          <button onClick={handleGiveUp} className="button">
+            Give Up
+          </button>
+        </div>
       </div>
     </div>
   );
