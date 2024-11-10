@@ -13,17 +13,17 @@ from threading import Lock
 
 load_dotenv()
 
-app = Flask(__name__, static_folder='dist', static_url_path='/')
+app = Flask(__name__, static_folder='frontend/build', static_url_path='/')
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('dist', filename)
+# @app.route('/static/<path:filename>')
+# def serve_static(filename):
+#     return send_from_directory('dist', filename)
 
 @app.route('/')
 def index():
-    return send_from_directory('dist', 'index.html')
+    return app.send_static_file("index.html")
 
 def parse_files(file_data):
     file_pattern = r"(/[\w/\.\-]+):\n-+(.*?)\n-+"
