@@ -6,7 +6,7 @@ import Progress from "./Progress";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from "./onboard.jpg";
 import axios from 'axios';
-
+import { uit } from "./Global_States";
 
 function Quiz() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -17,7 +17,7 @@ function Quiz() {
 
   useEffect(() => {
     var data = {
-      url: "https://uithub.com/TigerAppsOrg/PrincetonCourses"
+      url: uit
     }
     axios.post("http://localhost:6001/api/question", data).then((res) => {
       setData(res.data);

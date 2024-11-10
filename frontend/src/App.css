@@ -44,6 +44,7 @@ body, html {
   height: 100vh;
   background-color: #282c34;
   justify-items: center;
+  background-image: url("frontend/public/LandingPageBackground");
 }
 .lp-heading {
   font-size: 100px;
