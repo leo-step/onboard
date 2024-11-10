@@ -39,22 +39,20 @@ body, html {
   background-color: #98c379;
   border-radius: 4px;
 }
-.overlay{
-  position: "absolute";
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index:1;
+.logo {
+  width: 450px;
+  height: 175px;
+  position: absolute; 
+  top: 27%;
+  right: 34%;
 }
 .landing-page {
   width: 100vw;
   height: 100vh;
   justify-items: center;
-  background-image: url("../public/LandingPageBackground.png");
+  /* background-image: url("../public/LandingPageBackground.png"); */
   background-size: cover;
-  background-color: #282c3439;
+  background-color: #1e1e1e;
   z-index: 0;
 }
 .lp-heading {
@@ -66,11 +64,18 @@ body, html {
 .lp-text {
   font-size: 20px;
   font-family: "Cabin", sans-serif;
+  font-weight: bold;
   color: #98c379;
+  justify-self: center;
 }
 .lp-form {
   width: 400px;
-  height: 40px;
+  height: 45px;
+}
+.github-form{
+  position: absolute;
+  top: 50%; 
+  right: 30%;
 }
 .App {
   display: grid;

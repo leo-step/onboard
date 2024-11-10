@@ -11,7 +11,7 @@ const GitHubUrlForm: React.FC = () => {
     const [buttonText, setButtonText] = useState<string>("Submit");
     const navigate = useNavigate();
     const [uitURL, setUIT] = useAtom(uit);
-    const githubApiRegex = /^https:\/\/(www\.)?github\.com\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+)$/;
+    const githubApiRegex = /^https:\/\/(www\.)?github\.com\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+)\/?$/;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUrl(e.target.value);
@@ -66,11 +66,10 @@ const GitHubUrlForm: React.FC = () => {
     };
 
     return (
-        <div>
-            <h2 className="lp-text">Please Enter Valid GitHub URL Below To Get Started</h2>
+        <div className="github-form">
+            {/* <h2 className="lp-text">Please Enter Valid GitHub URL Below To Get Started</h2> */}
             <form onSubmit={handleSubmit}>
                 <label>
-                    GitHub URL:
                     <input
                         className="lp-form"
                         type="url"
