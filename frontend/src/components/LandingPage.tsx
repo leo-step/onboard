@@ -12,7 +12,7 @@ function LandingPage(){
     }
     return(
         <div className="landing-page">
-            <img src={logo} alt="Onboard Logo" className="logo"/>
+            <img src={logo} alt="Onboard Logo" className="logo" style={{paddingBottom: "16px"}}/>
             <GithubForm />
             {showInfo && (<div className="popup">
                 <button className="close-button" onClick={changeShowInfo}>X</button> 
