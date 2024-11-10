@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.6.4",
     "@types/prismjs": "^1.26.5"
   }
 }

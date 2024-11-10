@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { uit } from "./Global_States";
+import { uit, showInfoState} from "./Global_States";
 import {useAtom} from "jotai";
 
 const GitHubUrlForm: React.FC = () => {
@@ -11,12 +11,21 @@ const GitHubUrlForm: React.FC = () => {
     const [buttonText, setButtonText] = useState<string>("Submit");
     const navigate = useNavigate();
     const [uitURL, setUIT] = useAtom(uit);
+    const [showInfo, setShowInfo] = useAtom(showInfoState);
+    const [loading, setLoading] = useState<boolean>(false);
+
+
+
+
     const githubApiRegex = /^https:\/\/(www\.)?github\.com\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+)$/;
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUrl(e.target.value);
         setIsValid(null); // Reset validity check on input change
         setErrorMessage("");
     };
+    const changeShowInfo = () => {
+        setShowInfo(true);
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();    
@@ -30,7 +39,7 @@ const GitHubUrlForm: React.FC = () => {
 
         const [_, __, username, repository] = match; // Extract username and repository from URL
         const apiUrl = `https://api.github.com/repos/${username}/${repository}`;
-
+        setLoading(true);
         try {
             const response = await axios.get(apiUrl);
             if (response.status === 200) {
@@ -38,6 +47,7 @@ const GitHubUrlForm: React.FC = () => {
                 try {
                     console.log(uitHubURL);
                     setButtonText("Loading...");
+
                     const backend_response = await axios.post('http://localhost:6001/api/initialize', {"url": uitHubURL});
                     if(backend_response.status == 200){
                         setUIT(uitHubURL);
@@ -70,16 +80,20 @@ const GitHubUrlForm: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <label>
                     <input
-                        className="lp-form"
+                        className="lp-form submit-git-form-input"
                         type="url"
                         value={url}
                         onChange={handleChange}
                         placeholder="https://github.com/username/repository"
+                        disabled={loading}
                         required
                     />
                 </label>
-                <button type="submit">{buttonText}</button>
+                <button type="submit" className = "submit-git-form-button" disabled={loading}>{buttonText}</button>
+                <button type="button" className="info-button" onClick={changeShowInfo}>?</button>
+
             </form>
+
             {isValid === false && (
                 <p style={{ color: "red" }}>{errorMessage}</p>
             )}

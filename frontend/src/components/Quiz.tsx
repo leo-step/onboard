@@ -11,7 +11,6 @@ import { useAtomValue } from 'jotai';
 import Swal from 'sweetalert2';
 import confetti from 'canvas-confetti';
 
-
 function Quiz() {
   const uitURL = useAtomValue(uit);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -40,7 +39,7 @@ function Quiz() {
       setAllCorrect(false); 
     }
 
-    if (currentQuestionIndex == data.length -1){
+    if (currentQuestionIndex == data.length - 1){
       // celebratory page
       // Trigger confetti animation
       confetti({

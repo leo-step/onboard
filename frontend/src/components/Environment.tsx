@@ -53,36 +53,36 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
   const handleResults = (data: ResultsMap) => {
     const updatedStyles: { [key: number]: string } = {};
     const updatedDisabled: { [key: number]: boolean } = {};
-    var numTrue = 0;
-
+    let numTrue = 0;
+  
     Object.keys(data).forEach((index) => {
       const idx = parseInt(index);
       if (data[idx]) {
-        // Correct input: make it blue and disable further editing
-        updatedStyles[idx] = "blue";
+        // Correct input: green halo
+        updatedStyles[idx] = "0 0 10px 3px rgba(0, 255, 0, 0.7)"; // Green glow
         updatedDisabled[idx] = true;
         numTrue += 1;
       } else {
-        // Incorrect input: highlight it red
-        updatedStyles[idx] = "red";
+        // Incorrect input: red halo
+        updatedStyles[idx] = "0 0 10px 3px rgba(255, 0, 0, 0.7)"; // Red glow
         updatedDisabled[idx] = false;
       }
     });
-
+  
     setInputStyles(updatedStyles);
     setDisabledInputs(updatedDisabled);
-
-    // IF ALL ARE CORRECT
+  
+    // If all are correct, show a success message
     if (numTrue === Object.keys(data).length) {
-        Swal.fire({
-            title: "Good job!",
-            text: "All tests passed.",
-            icon: "success"
-         });
-         setAllCorrect(true); // Use setAllCorrect correctly
+      Swal.fire({
+        title: "Good job!",
+        text: "All tests passed.",
+        icon: "success",
+      });
+      setAllCorrect(true);
     }
-
   };
+  
 
   // Handle form submission
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -120,12 +120,12 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
 
     return question.map((part, index) => {
       const inputMatch = part.match(/Input\((\d+)\)/);
-
+    
       if (inputMatch) {
         const inputLength = parseInt(inputMatch[1], 10);
-        const currentIndex = inputIndex;
-        inputIndex++;
-
+        const currentIndex = index;
+        const boxShadowStyle = inputStyles[currentIndex] || "none";
+    
         return (
           <input
             key={currentIndex}
@@ -138,22 +138,23 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
               fontFamily: "monospace",
               fontSize: "16px",
               margin: "0 5px",
-              padding: "2px",
-              backgroundColor: inputStyles[currentIndex] || "#1e1e1e",
+              padding: "5px",
+              borderRadius: "5px",
+              outline: "none",
+              backgroundColor: "#1e1e1e",
               color: "#f8f8f2",
-              border: "1px solid #ccc",
+              border: "1px solid #3a3a3a",
+              boxShadow: boxShadowStyle, // Apply the box shadow here
             }}
             disabled={disabledInputs[currentIndex] || false}
           />
         );
       } else {
-        // Highlight non-input parts using Prism
         const highlightedPart = Prism.highlight(part, Prism.languages.python, "python");
-        return (
-          <span key={index} dangerouslySetInnerHTML={{ __html: highlightedPart }} />
-        );
+        return <span key={index} dangerouslySetInnerHTML={{ __html: highlightedPart }} />;
       }
     });
+    
   };
 
   return (

@@ -45,6 +45,7 @@ body, html {
   position: absolute; 
   top: 27%;
   right: 34%;
+  z-index: -1;
 }
 .landing-page {
   width: 100vw;
@@ -55,23 +56,44 @@ body, html {
   background-color: #1e1e1e;
   z-index: 0;
 }
-.info-button {
-  background-color: #1e1e1e;
-  outline: #1e1e1e;
+.close-button {
+  width: 50px;
+  height: 40px;
+  background-color: #424040;
+  outline: 0;
+  border: 0px;
+  align-self:flex-end;
+  border-radius: 60px;
+}
+.close-button:hover{
+  background-color: #424040;
 
 }
+.info-button{
+  
+}
 .popup {
+  display:flex;
+  flex-direction: column;
   align-self: center;
   justify-self: center;
-  width: 400px; 
-  height: 400px; 
-  
+  width: 700px; 
+  height: auto; 
+  background-color:#424040;
+  z-index: 10;
+  color: white;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  margin-top: 50px;
+  border-radius: 40px;
 }
 .lp-heading {
   font-size: 100px;
   font-family: "Cabin", sans-serif;
   color: #98c379;
-  z-index: 20;
+  z-index: 5;
 }
 .lp-text {
   font-size: 20px;
@@ -88,6 +110,8 @@ body, html {
   position: absolute;
   top: 50%; 
   right: 30%;
+  z-index:-1;
+  display: flex;
 }
 .App {
   display: grid;
@@ -331,4 +355,42 @@ button:hover {
   width: 60px;
   height: 60px;
   color: #09f; /* Change spinner color if needed */
+}
+
+
+
+input.correct {
+  box-shadow: 0 0 10px 2px rgba(0, 128, 0, 0.6); /* Dark green glow */
+  border-color: rgba(0, 128, 0, 0.6);
+  background-color: #1a1a1a; /* Dark background */
+  color: #a3ffa3; /* Light green text */
+}
+
+input.incorrect {
+  box-shadow: 0 0 10px 2px rgba(139, 0, 0, 0.6); /* Dark red glow */
+  border-color: rgba(139, 0, 0, 0.6);
+  background-color: #1a1a1a; /* Dark background */
+  color: #ffb3b3; /* Light red text */
+}
+
+input {
+  background-color: #1e1e1e; /* Dark input background */
+  color: #f8f8f2; /* Light text color */
+  border: 1px solid #3a3a3a;
+  padding: 8px;
+  border-radius: 5px;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+
+.submit-git-form-button:disabled {
+  background-color: #435d31;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.submit-git-form-input:disabled {
+  color: #3a3a3a;
+  cursor: not-allowed;
 }

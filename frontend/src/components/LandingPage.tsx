@@ -2,18 +2,20 @@ import React, {useState} from 'react';
 import '../App.css';
 import GithubForm from './GithubForm';
 import logo from "./logo_lp.png";
+import { showInfoState } from './Global_States';
+import { useAtom } from 'jotai';
 
 function LandingPage(){
-    const [showInfo, setShowInfo] = useState(false);
+    const [showInfo, setShowInfo] = useAtom(showInfoState);
     const changeShowInfo = () => {
-        setShowInfo(!showInfo);
+        setShowInfo(false);
     }
     return(
         <div className="landing-page">
             <img src={logo} alt="Onboard Logo" className="logo"/>
             <GithubForm />
-            <button className="info-button" onClick={changeShowInfo}>?</button>
             {showInfo && (<div className="popup">
+                <button className="close-button" onClick={changeShowInfo}>X</button> 
                 <text>
                 Learning a new codebase is tough-- whether you're a new hire at a company or trying to contribute to an 
                 open-source repository, getting used to a new tech stack for the first couple weeks of a project is often confusing. But, what if you could fix this-- what if there was an app to teach you any GitHub repository's tech stack?
