@@ -42,7 +42,7 @@ def create_problem_context():
     }
 
     Other guidelines: 
-    - Don't ask users to write complex error messages or urls, or anything that they wouldn't know or that's subjective.
+    - Don't ask users to write comments, complex error messages or urls, or anything that they wouldn't know or that's subjective.
       Focus on testing their logic skills. 
     - focus on only picking partial lines of code, only some complete lines of code.
     
@@ -74,18 +74,18 @@ def give_files_list(files):
 
 @system_prompt
 def select_hints():
-    return ''' We are creating an app to teach employees our codebase. 
-    We picked an easy line from a given file and produced a problem description for it that 
-    contains enough context (variable names, method calls from the line) and ask the user to only 
-    rewrite a small part of the line of code. We want employees to code this line of code exactly as it is as 
-    an answer to our question.
-
-    The employee is currently stuck on 1 or more lines of code and needs a hint. 
+    return ''' 
+    
+    We are creating an app to teach employees our codebase. Employees were given a line of code and asked 
+    to fill it in. The employee is currently stuck on 1 or more lines of code and needs a hint on how proceed on filling it. 
     For a set of lines of code the user has to implement, we want you to provide a hint to the employee
-    that will help them rewrite the line of code. We will provide you with the employee's attempt, as well as the 
-    correct solution. 
+    that will help them rewrite the line of code. We will provide you with the employee's attempt, as well as the correct solution. 
+    
     The hint you provide should be a string that states where the employee is going wrong in their code 
     (and you should read the correct solution but not reveal it). You will also be given the entire code for the file. 
+
+    ** YOU MUST COMPARE THE SUBMISSION from the user to the CORRECT solution.**
+    **BE ULTRA SPECIFIC with what the user should do to fix their CURRENT SUBMISSION**
 
     Here is the format of inputs for you (you'll be given a list of n description, submission, and correct solutions): 
 

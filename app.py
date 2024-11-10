@@ -137,7 +137,8 @@ def check_solution():
 
     response = []
     for i in range(len(question["lines"])):
-        response.append(question["lines"][i] == submission.get(str(i)))
+        response.append(question["lines"][i].replace(" ", "") == str(submission.get(str(i), "").replace(" ", "")))
+        
 
     return jsonify(response)
 
@@ -153,11 +154,17 @@ def get_hint():
         {"url" : url, "question_number" : question_number},
     {"_id": 0})
 
+    response = []
+    for i in range(len(question["lines"])):
+        response.append(question["lines"][i].replace(" ", "") == str(submission.get(str(i), "").replace(" ", "")))
+
     indices = list(submission.keys())
     hintQuery = question["question"]
     for i in range(len(indices)):
         index = int(indices[i])
-        hintQuery += str(i) + "\nDescription: " + str(question["descriptions"][index]) + "\n" + "Submission: " + str(submission[str(index)]) + "\n" + "Correct Solution: " + str(question["lines"][index]) + "\n"
+        if not response[index]:
+            print("index=", index)
+            hintQuery += str(i) + "\nDescription: " + str(question["descriptions"][index]) + "\n" + "Submission: " + str(submission[str(index)]) + "\n" + "Correct Solution: " + str(question["lines"][index]) + "\n"
     hintQuery += "Previous Hints"
     for i in range(len(previous_hints)):
         hintQuery += "\n" + str(previous_hints[i])
