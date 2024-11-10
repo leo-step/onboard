@@ -1,4 +1,6 @@
-from utils import system_prompt, user_prompt, openai_json_response
+from utils import system_prompt, user_prompt
+import random 
+
 @system_prompt
 def create_problem_context(): 
     
@@ -62,6 +64,7 @@ def select_candidate_files():
 
 @user_prompt
 def give_files_list(files):
+    random.shuffle(files)
     return str(files)
 
 @system_prompt
