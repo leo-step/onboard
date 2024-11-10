@@ -64,13 +64,19 @@ body, html {
   border: 0px;
   align-self:flex-end;
   border-radius: 60px;
+  color: white;
 }
 .close-button:hover{
   background-color: #424040;
 
 }
 .info-button{
-  
+  width: 50px;
+  justify-items: center;
+  text-align: center;
+  padding-top: 8px;
+  padding-left: 10px;
+  margin-left: 5px;
 }
 .popup {
   display:flex;

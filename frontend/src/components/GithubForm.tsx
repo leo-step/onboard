@@ -90,7 +90,7 @@ const GitHubUrlForm: React.FC = () => {
                     />
                 </label>
                 <button type="submit" className = "submit-git-form-button" disabled={loading}>{buttonText}</button>
-                <button type="button" className="info-button" onClick={changeShowInfo}>?</button>
+                <button type="button" className="info-button" onClick={changeShowInfo}>Info</button>
 
             </form>
 
