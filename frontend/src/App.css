@@ -39,12 +39,23 @@ body, html {
   background-color: #98c379;
   border-radius: 4px;
 }
+.overlay{
+  position: "absolute";
+  top: 0;
+  left: 0;
+  height: "100%";
+  width: "100%";
+  background-color: rgba(256, 256, 256, 0.5);
+  z-index:1;
+}
 .landing-page {
   width: 100vw;
   height: 100vh;
-  background-color: #282c34;
   justify-items: center;
-  /* background-image: url(`/LandingPageBackground.png`); */
+  background-image: url("../public/LandingPageBackground.png");
+  background-size: cover;
+  background-color: #282c3439;
+  opacity: 0.5;
 }
 .lp-heading {
   font-size: 100px;

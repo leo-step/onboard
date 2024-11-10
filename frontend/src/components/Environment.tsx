@@ -4,6 +4,8 @@ import "prismjs/components/prism-python";
 import "prismjs/themes/prism-tomorrow.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { uit } from "./Global_States";
+import { useAtomValue } from "jotai";
 
 interface EnvironmentProps {
   question: string[];
@@ -25,6 +27,7 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
   const [tempInputs, setTempInputs] = useState<InputsState>({});
   const [inputStyles, setInputStyles] = useState<{ [key: number]: string }>({});
   const [disabledInputs, setDisabledInputs] = useState<{ [key: number]: boolean }>({});
+  const uitURL = useAtomValue(uit);
 
 
   // Load inputs from localStorage when component mounts
@@ -95,7 +98,7 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
       const user_response = {
         question_number: questionId,
         submission: tempInputs,
-        url: "https://uithub.com/TigerAppsOrg/PrincetonCourses",
+        url: uitURL,
       };
 
       // Send the data via a POST request

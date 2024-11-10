@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Spinner from 'react-bootstrap/Spinner';
+import { uit } from "./Global_States";
+import { useAtomValue } from "jotai";
 
 interface ProblemStatementProps {
   title: string;
@@ -19,7 +21,7 @@ interface Hint {
 // function ProblemStatement(props: ProblemStatementProps) {
 const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , descriptions , questionId , submission }) => {
     const [loading, setLoading] = useState<boolean>(false); // New loading state
-
+    const uitURL = useAtomValue(uit);
     const [hints, setHints] = useState<Hint[]>([]);
     // const { context } = props;
     const [hintText, setHintText] = useState<string>("Show Hint")
@@ -33,7 +35,7 @@ const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , description
               question_number: questionId,
               submission: submission,
               previous_hints: hints.map((hint) => hint.data),
-              url: "https://uithub.com/TigerAppsOrg/PrincetonCourses",
+              url: uitURL,
             };
       
             // Log the payload being sent

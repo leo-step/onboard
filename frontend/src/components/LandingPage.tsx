@@ -7,9 +7,11 @@ function LandingPage(){
 
     }
     return(
-        <div className="landing-page">
-            <div className = "lp-heading">Welcome to Onboard!</div>
-            <GithubForm />
+        <div className="overlay">
+            <div className="landing-page">
+                <div className = "lp-heading">Welcome to Onboard!</div>
+                <GithubForm />
+            </div>
         </div>
     );
 }
