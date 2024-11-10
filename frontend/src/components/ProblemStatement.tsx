@@ -28,7 +28,7 @@ const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , description
     const handleHint = async () => {
         setHintText("Show Another Hint");
 
-        if (hints.length < 5) {
+        if (hints.length < 15) {
           try {
             // Prepare the data to send
             const payload = {

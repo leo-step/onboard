@@ -11,8 +11,7 @@ const GitHubUrlForm: React.FC = () => {
     const [buttonText, setButtonText] = useState<string>("Submit");
     const navigate = useNavigate();
     const [uitURL, setUIT] = useAtom(uit);
-    const githubApiRegex = /^https:\/\/(www\.)?github\.com\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+)\/?$/;
-
+    const githubApiRegex = /^https:\/\/(www\.)?github\.com\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+)$/;
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUrl(e.target.value);
         setIsValid(null); // Reset validity check on input change
@@ -22,7 +21,8 @@ const GitHubUrlForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setButtonText("Loading...");
-        const match = url.match(githubApiRegex);
+    
+        const match = url.charAt(url.length-1) == '/' ? url.substring(0, url.length - 1).match(githubApiRegex) : url.match(githubApiRegex);
         if (!match) {
             setIsValid(false);
             setErrorMessage("Please enter a valid GitHub repository URL.");
