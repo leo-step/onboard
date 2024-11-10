@@ -8,6 +8,9 @@ import logo from "./onboard.jpg";
 import axios from 'axios';
 import { uit } from "./Global_States";
 import { useAtomValue } from 'jotai';
+import Swal from 'sweetalert2';
+import confetti from 'canvas-confetti';
+
 
 function Quiz() {
   const uitURL = useAtomValue(uit);
@@ -35,6 +38,28 @@ function Quiz() {
     if(currentQuestionIndex < data.length - 1){
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setAllCorrect(false); 
+    }
+
+    if (currentQuestionIndex == data.length -1){
+      // celebratory page
+      // Trigger confetti animation
+      confetti({
+        particleCount: 200,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      // Display SweetAlert popup
+      Swal.fire({
+        title: "Congratulations!",
+        text: "You've completed all the questions!",
+        icon: "success",
+        confirmButtonText: "Awesome!",
+        background: "#f0f0f0",
+        customClass: {
+          popup: "celebration-popup"
+        }
+      });
     }
   };
   const currentQuestion = data[currentQuestionIndex] as any;

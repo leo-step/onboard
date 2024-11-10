@@ -55,6 +55,18 @@ body, html {
   background-color: #1e1e1e;
   z-index: 0;
 }
+.info-button {
+  background-color: #1e1e1e;
+  outline: #1e1e1e;
+
+}
+.popup {
+  align-self: center;
+  justify-self: center;
+  width: 400px; 
+  height: 400px; 
+  
+}
 .lp-heading {
   font-size: 100px;
   font-family: "Cabin", sans-serif;

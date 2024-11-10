@@ -92,6 +92,8 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
     setInputs({ ...tempInputs });
     setSubmission(tempInputs); // Update submission in Quiz
     console.log("Submitted answers:", tempInputs);
+    console.log(questionId);
+    console.log(uitURL)
 
     try {
       // Prepare the data to send

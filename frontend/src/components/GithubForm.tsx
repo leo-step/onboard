@@ -19,9 +19,7 @@ const GitHubUrlForm: React.FC = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setButtonText("Loading...");
-    
+        e.preventDefault();    
         const match = url.charAt(url.length-1) == '/' ? url.substring(0, url.length - 1).match(githubApiRegex) : url.match(githubApiRegex);
         if (!match) {
             setIsValid(false);
@@ -39,6 +37,7 @@ const GitHubUrlForm: React.FC = () => {
                 const uitHubURL = url.substring(0, 8) + "u" + url.substring(9, url.length);
                 try {
                     console.log(uitHubURL);
+                    setButtonText("Loading...");
                     const backend_response = await axios.post('http://localhost:6001/api/initialize', {"url": uitHubURL});
                     if(backend_response.status == 200){
                         setUIT(uitHubURL);
@@ -50,16 +49,16 @@ const GitHubUrlForm: React.FC = () => {
                     setIsValid(false);
                     console.log(error);
                     setErrorMessage("The server isn't running right now");
+                    setButtonText("Submit");
+
                 }
             }
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 404) {
-                setButtonText("Submit");
                 setIsValid(false);
                 setErrorMessage("GitHub repository not found (404).");
             } else {
                 setIsValid(false);
-                setButtonText("Submit");
                 setErrorMessage("An error occurred while checking the repository.");
             }
         }
