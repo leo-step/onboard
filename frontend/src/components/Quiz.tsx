@@ -17,13 +17,14 @@ function Quiz() {
   const [data, setData] = useState([]);
   const [allCorrect, setAllCorrect] = useState(false); // New state to track correctness
   const [submission, setSubmission] = useState<{ [key: number]: string }>({});
-
+  const [solution, setSolution] = useState([]);
 
   useEffect(() => {
     var data = {
       url: uitURL
     }
     axios.post("http://localhost:6001/api/question", data).then((res) => {
+      setSolution(res.data.map((item: { lines: string; }) => item.lines));
       setData(res.data);
     });
   }, [])
@@ -87,7 +88,7 @@ function Quiz() {
 
       {/* Environment Section */}
       <div id="right">
-        <Environment  key={currentQuestionIndex} question={currentQuestion.question} questionId={currentQuestionIndex} setAllCorrect={setAllCorrect} setSubmission={setSubmission}/>
+        <Environment  key={currentQuestionIndex} question={currentQuestion.question} solution={solution} questionId={currentQuestionIndex} setAllCorrect={setAllCorrect} setSubmission={setSubmission}/>
       </div>
 
       {/* Progress Bar at the Bottom */}

@@ -60,6 +60,7 @@ const GitHubUrlForm: React.FC = () => {
                     console.log(error);
                     setErrorMessage("The server isn't running right now");
                     setButtonText("Submit");
+                    setLoading(false);
 
                 }
             }
@@ -67,36 +68,39 @@ const GitHubUrlForm: React.FC = () => {
             if (axios.isAxiosError(error) && error.response?.status === 404) {
                 setIsValid(false);
                 setErrorMessage("GitHub repository not found (404).");
+                setLoading(false);
+
             } else {
                 setIsValid(false);
                 setErrorMessage("An error occurred while checking the repository.");
+                setLoading(false);
             }
         }
     };
 
     return (
-        <div className="github-form">
-            {/* <h2 className="lp-text">Please Enter Valid GitHub URL Below To Get Started</h2> */}
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <input
-                        className="lp-form submit-git-form-input"
-                        type="url"
-                        value={url}
-                        onChange={handleChange}
-                        placeholder="https://github.com/username/repository"
-                        disabled={loading}
-                        required
-                    />
-                </label>
-                <button type="submit" className = "submit-git-form-button" disabled={loading}>{buttonText}</button>
-                <button type="button" className="info-button" onClick={changeShowInfo}>Info</button>
-
-            </form>
-
-            {isValid === false && (
-                <p style={{ color: "red" }}>{errorMessage}</p>
-            )}
+        <div>
+            <div className="github-form">
+                {/* <h2 className="lp-text">Please Enter Valid GitHub URL Below To Get Started</h2> */}
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        <input
+                            className="lp-form submit-git-form-input"
+                            type="url"
+                            value={url}
+                            onChange={handleChange}
+                            placeholder="https://github.com/username/repository"
+                            disabled={loading}
+                            required
+                        />
+                    </label>
+                    <button type="submit" className = "submit-git-form-button" disabled={loading}>{buttonText}</button>
+                    <button type="button" className="info-button" onClick={changeShowInfo}>Info</button>
+                    {isValid === false && (
+                        <p style={{ color: "red", width:"100%", alignSelf: "center"}}>{errorMessage}</p>
+                    )}
+                </form>
+            </div>
         </div>
     );
 };

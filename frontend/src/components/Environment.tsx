@@ -10,6 +10,7 @@ import { useAtomValue } from "jotai";
 interface EnvironmentProps {
   question: string[];
   questionId: number;
+  solution: string[][];
   setAllCorrect: (value: boolean) => void; // New prop for setting correctness
   setSubmission: (value: InputsState) => void;
 }
@@ -22,11 +23,12 @@ type ResultsMap = {
   [key: number]: boolean;
 };
 
-const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllCorrect, setSubmission}) => {
+const Environment: React.FC<EnvironmentProps> = ({ question, questionId, solution, setAllCorrect, setSubmission}) => {
   const [inputs, setInputs] = useState<InputsState>({});
   const [tempInputs, setTempInputs] = useState<InputsState>({});
   const [inputStyles, setInputStyles] = useState<{ [key: number]: string }>({});
   const [disabledInputs, setDisabledInputs] = useState<{ [key: number]: boolean }>({});
+  const [indicesOfInputs, setIndicesOfInputs] = useState<number[]>([]);
   const uitURL = useAtomValue(uit);
 
 
@@ -43,6 +45,14 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
   useEffect(() => {
     localStorage.setItem(`question-${questionId}`, JSON.stringify(inputs));
   }, [inputs, questionId]);
+
+  useEffect(() => {
+    const inputIndices: number[] = question
+      .map((part, index) => (part.match(/Input\((\d+)\)/) ? index : -1)).filter(index => index !== -1);
+    console.log(question);
+    console.log("inputindices" + inputIndices);
+    setIndicesOfInputs(inputIndices);
+  }, [question]);
 
   // Handle input changes
   const handleTempInputChange = (index: number, value: string) => {
@@ -68,7 +78,7 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
         updatedDisabled[idx] = false;
       }
     });
-  
+    
     setInputStyles(updatedStyles);
     setDisabledInputs(updatedDisabled);
   
@@ -82,6 +92,42 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
       setAllCorrect(true);
     }
   };
+  
+  const handleGiveUp = () => {
+    // console.log("Current solution:", solution);
+    // const newInputs: InputsState = {}; // Change newInputs to an object format
+  
+    // // Ensure solution[questionId] exists and is an array
+    // if (!solution[questionId] || !Array.isArray(solution[questionId])) {
+    //   console.error(`solution[${questionId}] is undefined or not an array`);
+    //   return;
+    // }
+  
+    // // Populate each input with the corresponding answer from `solution`
+    // question.forEach((_, index) => {
+    //   // Check if the solution exists for the given questionId and index
+    //   const answer = solution[questionId][index] || ""; // Provide a default empty string
+    //   console.log(`Populating input ${index} with answer: "${answer}"`);
+    //   newInputs[index] = answer; // Set newInputs as an object with indices as keys
+    // });
+  
+    // // Set the inputs in the state
+    // setInputs(newInputs);
+    // setTempInputs(newInputs);
+    const dictionary = indicesOfInputs.reduce((acc, key, index) => {
+      (acc as any)[key] = solution[questionId][index];
+      return acc;
+    }, {});
+    // console.log(dictionary);
+    // console.log(solution);
+    // const dictionary = solution[questionId].reduce((acc, value, index) => {
+    //   (acc as any)[index] = value;
+    //   return acc;
+    // }, {});
+    console.log(dictionary);
+    setTempInputs(dictionary); // Update submission in Quiz
+  };
+  
   
 
   // Handle form submission
@@ -120,12 +166,11 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
 
     return question.map((part, index) => {
       const inputMatch = part.match(/Input\((\d+)\)/);
-    
+      
       if (inputMatch) {
         const inputLength = parseInt(inputMatch[1], 10);
         const currentIndex = index;
         const boxShadowStyle = inputStyles[currentIndex] || "none";
-    
         return (
           <input
             key={currentIndex}
@@ -187,6 +232,11 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, setAllC
       <div className="submit-container">
         <button onClick={handleSubmit} className="button">
           Submit
+        </button>
+      </div>
+      <div className="submit-container">
+        <button onClick={handleGiveUp} className="button">
+          Give Up
         </button>
       </div>
     </div>
