@@ -48,7 +48,7 @@ const GitHubUrlForm: React.FC = () => {
                     console.log(uitHubURL);
                     setButtonText("Loading...");
 
-                    const backend_response = await axios.post('http://localhost:6001/api/initialize', {"url": uitHubURL});
+                    const backend_response = await axios.post('https://onboard.tigerapps.org/api/initialize', {"url": uitHubURL});
                     if(backend_response.status == 200){
                         setUIT(uitHubURL);
                         navigate("/quiz");

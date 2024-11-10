@@ -124,7 +124,7 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, solutio
       };
 
       // Send the data via a POST request
-      axios.post("http://localhost:6001/api/solution", user_response).then((res) => {
+      axios.post("https://onboard.tigerapps.org/api/solution", user_response).then((res) => {
         console.log("Server response:", res.data);
         handleResults(res.data);
         console.log(res.data)

@@ -23,7 +23,7 @@ function Quiz() {
     var data = {
       url: uitURL
     }
-    axios.post("http://localhost:6001/api/question", data).then((res) => {
+    axios.post("https://onboard.tigerapps.org/api/question", data).then((res) => {
       setSolution(res.data.map((item: { lines: string; }) => item.lines));
       setData(res.data);
     });

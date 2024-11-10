@@ -43,7 +43,7 @@ const ProblemStatement: React.FC<ProblemStatementProps> = ({ title , description
       
             // Send data to the API endpoint
             setLoading(true);
-            const response = await axios.post("http://localhost:6001/api/hint", payload);
+            const response = await axios.post("https://onboard.tigerapps.org/api/hint", payload);
       
             // Check if response and hint data are valid
             if (response.data) {
