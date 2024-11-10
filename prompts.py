@@ -100,7 +100,7 @@ def select_hints():
      (previous hints given to the user)
      "
     
-    Return an array of n hints as an array of strings, where there is a hint for each description. *** AVOID 
+    Return an json of n hints as an array of strings, where there is a hint for each description. *** AVOID 
     USING ANY OF THE PREVIOUS HINTS AND THE CORRECT SOLUTION IN YOUR HINTS ***. The array of n hints
     should be in the following format:
     "
