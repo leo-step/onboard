@@ -94,38 +94,12 @@ const Environment: React.FC<EnvironmentProps> = ({ question, questionId, solutio
   };
   
   const handleGiveUp = () => {
-    // console.log("Current solution:", solution);
-    // const newInputs: InputsState = {}; // Change newInputs to an object format
-  
-    // // Ensure solution[questionId] exists and is an array
-    // if (!solution[questionId] || !Array.isArray(solution[questionId])) {
-    //   console.error(`solution[${questionId}] is undefined or not an array`);
-    //   return;
-    // }
-  
-    // // Populate each input with the corresponding answer from `solution`
-    // question.forEach((_, index) => {
-    //   // Check if the solution exists for the given questionId and index
-    //   const answer = solution[questionId][index] || ""; // Provide a default empty string
-    //   console.log(`Populating input ${index} with answer: "${answer}"`);
-    //   newInputs[index] = answer; // Set newInputs as an object with indices as keys
-    // });
-  
-    // // Set the inputs in the state
-    // setInputs(newInputs);
-    // setTempInputs(newInputs);
-    const dictionary = indicesOfInputs.reduce((acc, key, index) => {
-      (acc as any)[key] = solution[questionId][index];
+    const dictionary = solution[questionId].reduce((acc, value, index) => {
+      (acc as any)[index] = value;
       return acc;
     }, {});
-    // console.log(dictionary);
-    // console.log(solution);
-    // const dictionary = solution[questionId].reduce((acc, value, index) => {
-    //   (acc as any)[index] = value;
-    //   return acc;
-    // }, {});
     console.log(dictionary);
-    setTempInputs(dictionary); // Update submission in Quiz
+    setTempInputs(dictionary);
   };
   
   
