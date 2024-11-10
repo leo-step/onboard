@@ -73,6 +73,7 @@ def initialize():
         
         responseLLM["question"] = file_content
         filtered_data = list(filter(lambda x: x[1] in responseLLM["question"], zip(responseLLM["descriptions"], responseLLM["lines"])))
+        filtered_data.sort(key=lambda x: responseLLM["question"].index(x[1]))
         filtered_description, filtered_lines = zip(*filtered_data) if filtered_data else ([], [])
         responseLLM["descriptions"] = list(filtered_description)
         responseLLM["lines"] = list(filtered_lines)
